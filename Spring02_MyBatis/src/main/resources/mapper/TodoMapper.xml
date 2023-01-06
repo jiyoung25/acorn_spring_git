@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="todo">
+	<select id="getList" resultType="com.gura.spring02.todo.dto.TodoDto">
+		SELECT num, content, TO_CHAR(regdate, 'YYYY-MM-DD') regdate, deadline
+		FROM todo
+		ORDER BY num ASC
+	</select>
+	
+	<insert id="insert" parameterType="com.gura.spring02.todo.dto.TodoDto">
+		INSERT INTO todo
+		(num, content, regdate, deadline)
+		VALUES(todo_seq.NEXTVAL, #{ content }, SYSDATE, #{ deadline })
+	</insert>
+	
+	<select id="getData" resultType="com.gura.spring02.todo.dto.TodoDto" parameterType="int">
+		SELECT num, content, TO_CHAR(regdate, 'YYYY/MM/DD') regdate, deadline
+		FROM todo
+		WHERE num = #{ num }
+	</select>
+	
+	<update id="update" parameterType="com.gura.spring02.todo.dto.TodoDto">
+		UPDATE todo
+		SET content = #{ content }, deadline = #{ deadline }
+		WHERE num = #{ num }
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM todo
+		WHERE num = #{ num }
+	</delete>
+</mapper>
